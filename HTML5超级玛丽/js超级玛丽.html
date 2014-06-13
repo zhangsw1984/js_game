@@ -1,0 +1,261 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="Description" content="初次尝试HTML5游戏设计、不足之处望业内高手指正、倍感荣幸！（如有需要或探讨请加本人QQ：627831342）" />
+<meta name="author" content="张生武、QQ:627831342" />
+<title>html5超级玛丽</title>
+<link type="text/css" href="css/style.css" rel="stylesheet" media="all" />
+</head>
+<body>
+<div id="sm">
+	<h4 style="width:100%;text-align:center;line-height:30px;font-size:16px;color:red;padding-top:50px;">Enter为开始。WSAD为上下左右键。空格为发射子弹。</h4>
+</div>
+<div class="index">
+    <div class="left" id="logo"></div>
+    <div class="select" id="select">
+    	<div>
+        	<img id="img" src="img/xjl.png">
+        	<ul class="g1" id="g1">1</ul><ul class="g2" id="g2">2</ul><ul class="g3" id="g3">3</ul><ul class="g4" id="g4">4</ul>
+            <ul class="g5" id="g5">5</ul><ul class="g6" id="g6">6</ul><ul class="g7" id="g7">7</ul><ul class="g8" id="g8">8</ul><ul class="g9" id="g9">9</ul>
+            <p class="l0"></p><p class="l1"></p><p class="l2"></p><p class="l3"></p><p class="l4"></p><p class="l5"></p><p class="l6"></p><p class="l7"></p><p class="l8"></p><p class="l9"></p>
+        </div>
+    </div>
+        <div class="center">
+    		<p id="p1">有&nbsp;<b id="jlsm">0</b>&nbsp;条命</p><p id="p2">第&nbsp;<b id="gk">0</b>&nbsp;关</p><p id="p3">金币&nbsp;<b id="jljbs">0</b>&nbsp;$</p><p id="p4">还剩&nbsp;<b id="jltime">0</b>&nbsp;秒</p>
+            <canvas id=canvas width=600 height=400>
+            <p style="text-align: center;">糟糕！您的浏览器不支持HTML5 Canvas，玩不了，请尝试用Firefox、Chrome、IE9浏览器</p>
+            </canvas>
+        </div>
+    <div class="right" id="end"></div>
+</div>
+<div style="width:100%;text-align:center;">作者：张生武<br><br>QQ:627831342</div>
+<audio id="ad" loop src="audio/ds.mp3"></audio>
+<audio id="jinb" src="audio/jinb.mp3"></audio>
+<audio id="cdr" src="audio/cdr.mp3"></audio>
+<audio id="dingmogu" src="audio/dingmogu.mp3"></audio>
+<audio id="dingpozhuan" src="audio/dingpozhuan.mp3"></audio>
+<audio id="dingz" src="audio/dingz.mp3"></audio>
+<audio id="chid" src="audio/chidao.mp3"></audio>
+<audio id="zhidan" src="audio/zhidan.mp3"></audio>
+<audio id="laqi" src="audio/laqi.mp3"></audio>
+<audio id="shit" src="audio/shit.mp3"></audio>
+<audio id="jm" src="audio/jm.mp3"></audio>
+<audio id="over" src="audio/over.mp3"></audio>
+
+</body>
+</html>
+<script src="js/gjs.js"></script>
+<script src="js/animateClass.js"></script>
+<script src="js/bg.js"></script>
+<script src="js/main.js"></script>
+<script type="text/javascript">
+var page=1;
+var jlol=1,jlsmz=3,jljb=0,ggk=1,jltime=200;
+var oSelect=document.getElementById('select');
+var end=document.getElementById('end');
+var can=document.getElementById('canvas');
+var ctx=can.getContext('2d');
+
+var img=new Image();
+img.src="img/jl.png";
+var imggw=new Image();
+imggw.src="img/gw.png";
+var imggk=new Image();
+imggk.src="img/ss.png";
+var bgt=new Image();
+bgt.src="img/sbg.png";
+var zr=new Image();
+zr.src="img/zr.png";
+var bgjsq=0;
+var bgjsqty=false;
+var jj=0;
+var time,timer,timer1;
+var gs=0;
+var jl={}
+
+var keystate={};
+document.addEventListener('keydown',function(evt){
+	keystate[evt.keyCode]=true;
+	if(page==1){
+		onk();	
+	}else if(page==2){
+		xgstate(jlol,ggk);
+	}	
+},true);
+document.addEventListener('keyup',function(evt){
+	keystate[evt.keyCode]=false;	
+},true);
+
+
+
+
+	
+function statr(jlol,ggk){
+	createBg(0);
+	createBg2(0);
+	createcj()
+	xrzfc();
+	jlfc();
+	document.getElementById('ad').play();
+	if(jlol==1){
+		jl.ol=1;jl.x=0;jl.y=0;jl.w=26;jl.h=33;jl.cx=0;jl.cy=10;jl.cw=26;jl.ch=33;jl.speedx=6;jl.speedy=0;jl.gs=0;jl.gry=120;jl.zaw=false;
+		jl.top=false;jl.buttom=true;jl.maxy=140;jl.cury=null;jl.gd=false;jl.prool=null;jl.nextol=null;jl.gkcx=false;jl.zgs=0;jl.sm=true;	
+	}else if(jlol==2){
+		jl.ol=2;jl.x=0;jl.y=67;jl.w=30;jl.h=50;jl.cx=0;jl.cy=10;jl.cw=30;jl.ch=50;jl.speedx=6;jl.speedy=0;jl.gs=0;jl.gry=120;jl.zaw=false;
+		jl.top=false;jl.buttom=true;jl.maxy=140;jl.cury=null;jl.gd=false;jl.prool=null;jl.nextol=null;jl.gkcx=false;jl.zgs=0;jl.sm=true	
+	}else if(jlol==3){
+		jl.ol=3;jl.x=0;jl.y=171;jl.w=30;jl.h=50;jl.cx=0;jl.cy=10;jl.cw=30;jl.ch=50;jl.speedx=6;jl.speedy=0;jl.gs=0;jl.gry=120;jl.zaw=false;
+		jl.top=false;jl.buttom=true;jl.maxy=140;jl.cury=null;jl.gd=false;jl.prool=null;jl.nextol=null;jl.gkcx=false;jl.zgs=0;jl.sm=true;	
+	}
+	
+	time=setInterval(int,30);
+	
+	function djgd(){
+		timer=setTimeout(arguments.callee,30);
+		jl.zgs++	
+		if(jl.zgs>=20){jl.zgs=0;clearTimeout(timer)}
+	}
+	
+	function int(){
+		document.getElementById("jlsm").innerHTML=jlsmz;
+		document.getElementById('gk').innerHTML=ggk;
+		document.getElementById('jljbs').innerHTML=jljb;
+		document.getElementById('jltime').innerHTML=jltime;
+		if(gs>=600){addgw(ggk);gs=0}
+		if(jl.gd==false){
+			jl.zaw=false;
+			bgjsqty=false;
+			jj=0;
+			if(jl.sm){
+				if(keystate[65]&&keystate[68]||!keystate[65]&&!keystate[68]){
+					jl.gs=0;
+					jl.x=0;
+					bg.cx=0;
+				}else if(keystate[68]){
+					gs+=6;
+					jl.cx+=jl.speedx;
+					if(jl.gkcx==false){
+						if(jl.cx>=300){
+							jl.cx=300;	
+							jj=-6;
+							bgjsqty=true;
+						}
+					}
+					if(jl.ol==1){jl.y=0;}else if(jl.ol==2){jl.y=67;}else if(jl.ol==3){jl.y=171;}
+				}else if(keystate[65]){
+					gs-=6;
+					jl.cx-=jl.speedx;
+					if(jl.cx<0){
+						jl.cx=0;	
+					}
+					if(jl.ol==1){jl.y=34;}else if(jl.ol==2){jl.y=119;}else if(jl.ol==3){jl.y=223;}
+				}
+				if(keystate[83]){
+					jl.x=jl.w*3;
+					jl.buttom=true;
+				}
+				if(keystate[87]){
+					jl.top=true;
+				}
+				if(keystate[32]){
+					if(jl.ol==3){
+						jldfc();
+						keystate[32]=false;
+						document.getElementById('zhidan').play();
+					}	
+				}
+				if(jl.buttom==true){
+					jl.speedy=Math.floor((jl.gry+jl.speedy)/8);
+					jl.cy+=jl.speedy;
+				}
+				if(jl.top==true&&jl.buttom==false){
+					jl.speedy=(jl.cy-(jl.cury-jl.maxy))/4;
+					jl.cy-=Math.floor(jl.speedy);
+					if(Math.floor(jl.speedy)<=0){
+						jl.buttom=true;
+					}
+				}
+			}else{
+				jl.cy+=jl.speedy;
+			}
+		}
+		if(gkf.kcx<=460){jl.gkcx=true;}
+		zou();	
+	}
+	function zou(){
+		if(jl.gd==false){
+			ctx.clearRect(0,0,can.width,can.height);
+			jl.gs++;
+			if(jl.gs>=5){
+				jl.x+=jl.w;
+				if(jl.x>jl.w*2){jl.x=0};
+				jl.gs=0;
+			}
+			bgimg();
+			zab();
+			xrzf();
+			yzafc();
+			jfafc();
+			huafc();
+			mgfc();
+			zzfc();
+			zjfofc();
+			zjffc();
+			mgzfc();
+			gkfc();
+			gkffc();
+			flu();
+			bucao();
+			Animter();
+			jld_move();
+			jf()
+			ctx.drawImage(img,jl.x,jl.y,jl.w,jl.h,jl.cx,jl.cy,jl.cw,jl.ch);
+		}else{
+			jl.gs++;
+			jl.zgs++;
+			if(jl.zgs>=50){jl.zgs=0;}
+			if(jl.prool<jl.nextol){jl.cw+=0.5;jl.ch+=0.5;jl.cy--}
+			if(jl.prool>jl.nextol){jl.cw-=0.5;jl.ch-=0.5;}
+			if(jl.gs>=20){
+				jl.zgs=0;
+				jl.gd=false;
+				djgd();
+				jl.ol=jl.nextol;
+				if(jl.ol==1){
+					jl.x=0;jl.y=0;jl.w=26;jl.h=33;jl.cw=26;jl.ch=33;
+				}else if(jl.ol==2){
+					jl.x=0;jl.y=67;jl.w=30;jl.h=50;jl.cw=30;jl.ch=50;
+				}else if(jl.ol==3){
+					jl.x=0;jl.y=171;jl.w=30;jl.h=50;jl.cw=30;jl.ch=50;
+				}
+				if(jl.prool==1&&jl.nextol==2||jl.prool==1&&jl.nextol==3){
+					jl.cy-=17;	
+				}else if(jl.prool==3&&jl.nextol==1||jl.prool==2&&jl.nextol==1){
+					jl.cy+=17;
+				}	
+			}
+			ctx.drawImage(img,jl.x,jl.y,jl.w,jl.h,jl.cx,jl.cy,jl.cw,jl.ch);
+		}	
+		for(var i=0;i<jlda.length;i++){
+			if(jlda.length>0){if(jlda[i].cx>600||jlda[i].cx<-100){jlda.splice(i,1);}}
+		}
+		for(var i=0;i<arr.length;i++){
+			if(arr[i].cy>400||arr[i].cx>2500||arr[i].cx<=-600){
+				arr.splice(i,1);
+			}
+		}
+		for(var j=0;j<gwd.length;j++){
+			if(gwd[j].cy>400||gwd[j].cx<=-600||gwd[j].cx>=1000){gwd.splice(j,1);}	
+		}
+	} 
+}
+function onk(){
+	if(keystate[13]){
+		page=2;
+	}
+	var logo=document.getElementById('logo');
+	Animate.mMove(logo,{left:-615});	
+}
+</script>
+
